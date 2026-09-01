@@ -1158,6 +1158,178 @@ input:focus-visible {
 }
 
 /* ==========================================================================
+   Clients marquee
+   ========================================================================== */
+
+.clients-section .section-heading {
+  margin-bottom: 0;
+}
+
+.clients-marquee {
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--s-56);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.clients-track {
+  display: flex;
+  align-items: flex-start;
+  width: max-content;
+  gap: 56px;
+  animation: clients-scroll 50s linear infinite;
+}
+
+.clients-marquee:hover .clients-track {
+  animation-play-state: paused;
+}
+
+.client-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 120px;
+  gap: var(--s-16);
+  text-decoration: none;
+}
+
+.client-logo-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  padding: 22px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: var(--surface-1);
+  border: 1px solid rgba(var(--border-rgb), 0.12);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.client-logo:hover .client-logo-circle,
+.client-logo:focus-visible .client-logo-circle {
+  border-color: var(--color-lavender-spark);
+  box-shadow: 0 0 0 4px rgba(185, 151, 255, 0.15);
+}
+
+.client-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+.client-logo:hover img,
+.client-logo:focus-visible img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.client-name {
+  font-size: var(--text-body-sm);
+  font-weight: var(--w-medium);
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.35;
+  transition: color 0.25s ease;
+}
+
+.client-logo:hover .client-name,
+.client-logo:focus-visible .client-name {
+  color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+  .clients-track {
+    gap: 110px;
+  }
+
+  .client-logo {
+    width: 170px;
+  }
+
+  .client-logo-circle {
+    width: 170px;
+    height: 170px;
+    padding: 28px;
+  }
+
+  .client-name {
+    font-size: var(--text-subheading);
+  }
+}
+
+@media (min-width: 1024px) {
+  .clients-track {
+    gap: 170px;
+  }
+
+  .client-logo {
+    width: 200px;
+  }
+
+  .client-logo-circle {
+    width: 200px;
+    height: 200px;
+    padding: 32px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .clients-track {
+    gap: 220px;
+  }
+
+  .client-logo {
+    width: 220px;
+  }
+
+  .client-logo-circle {
+    width: 220px;
+    height: 220px;
+    padding: 36px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .clients-track {
+    gap: 340px;
+  }
+
+  .client-logo {
+    width: 240px;
+  }
+
+  .client-logo-circle {
+    width: 240px;
+    height: 240px;
+    padding: 40px;
+  }
+}
+
+@keyframes clients-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-track {
+    animation: none;
+    overflow-x: auto;
+    padding-bottom: var(--s-16);
+  }
+}
+
+/* ==========================================================================
    CTA band
    ========================================================================== */
 
