@@ -1,7 +1,7 @@
 # Havenux — Style Reference
 > violet-lit vault at midnight. A near-black canvas glows with a single lavender signal and a green confirmation light, every surface rounded just enough to feel handled.
 
-**Theme:** dark
+**Theme:** dark (default), with an optional light theme toggle
 
 Havenux operates as a dark-mode security console: a near-black violet-tinted canvas (`#1c1624`) with whisper-thin light borders, one vivid green that signals 'go', and one lavender violet that carries brand voice in headlines and highlights. The interface feels like a vault UI — dense product surfaces, glass-blur header, 20px rounded cards floating on a midnight field. This directly serves the product: Havenux builds risk management, KYC, and market software for financial institutions, so the UI itself should read as secure, controlled, and precise.
 
@@ -162,6 +162,20 @@ No photography or stock illustration. The only visual content is: the Havenux lo
 - **Email:** `contact@havenux.com`
 - **WhatsApp:** `+977 9714234414` (matches the number already live on market.havenux.com) — used for the header/hero/CTA "Get a Demo" links, the contact-card WhatsApp row, and the contact form's submit action.
 - **Social:** Facebook, LinkedIn, X, Instagram, TikTok only (footer `.footer-social`) — currently placeholder `#` hrefs pending real profile URLs.
+
+## Logo
+
+The Havenux mark ([assets/havenux-mark.png](assets/havenux-mark.png)) is a hand-drawn violet outline holding an orange accent shape, cropped from the full lockup with a transparent background so it drops onto both the dark canvas and the light theme cleanly. The `havenux` wordmark next to it is always live text (Inter, weight 500), not part of the image — this keeps it crisp at any size and theme-reactive via `var(--text-primary)`, rather than baking text color into a raster asset. Favicons (`favicon.png`, `favicon-32.png`, `apple-touch-icon.png`) and the OG/Twitter share image ([assets/og-image.svg](assets/og-image.svg)) are all derived from the same source mark.
+
+## Light/Dark Theme Toggle
+
+Dark is the default and primary brand expression (see the theme statement at the top of this document), but a header toggle (`.theme-toggle`, sun/moon icon, always visible — not hidden behind the mobile hamburger) lets a visitor switch to a light variant. Mechanism:
+
+- All component CSS is written against **semantic tokens** (`--surface-0/1/2`, `--text-primary/secondary/tertiary`, `--border-strong`, `--border-rgb`, `--fg-rgb`, `--text-signal-green`) rather than the raw palette tokens directly. `:root` defines the dark (default) values; `:root[data-theme="light"]` overrides them.
+- The light palette keeps the same violet/green/orange accent hues but re-maps neutrals: canvas `#f7f5f2`, card surface `#ffffff`, ink text `#1c1624` (literally the dark theme's canvas color, inverted into the text role).
+- Two accent colors get a **dedicated light-mode shade** rather than reusing the dark-mode value verbatim, because the originals fail text contrast on a light background: `--color-lavender-spark` darkens to `#7c3aed` and `--text-signal-green` (used only for green text/icons, never button fills) darkens to `#0a7a3f`. `--color-signal-green` itself (the button-fill color) is untouched — black-on-green contrast doesn't depend on page theme.
+- A blocking inline script in `<head>` (before first paint) reads `localStorage['havenux-theme']` and sets `data-theme="light"` immediately if needed, so returning light-mode visitors never see a flash of dark mode. `script.js` owns the click handler, persistence, and `aria-pressed`/`aria-label` updates.
+- Any new component must use the semantic tokens above — reaching for a raw `--color-*` palette token (or a hardcoded hex/rgba) in component CSS will look right in dark mode and break silently in light mode.
 
 ## Accessibility Notes
 

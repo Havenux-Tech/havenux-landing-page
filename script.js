@@ -1,6 +1,44 @@
 (function () {
   'use strict';
 
+  // Theme toggle (light/dark)
+  var THEME_KEY = 'havenux-theme';
+  var themeToggles = document.querySelectorAll('.theme-toggle');
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  }
+
+  function updateToggleLabels() {
+    var theme = currentTheme();
+    var label = theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
+    themeToggles.forEach(function (btn) {
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+    });
+  }
+
+  function setTheme(theme) {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (e) {}
+    updateToggleLabels();
+  }
+
+  if (themeToggles.length) {
+    updateToggleLabels();
+    themeToggles.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+      });
+    });
+  }
+
   // Top banner dismiss
   var banner = document.getElementById('topBanner');
   var bannerClose = document.getElementById('bannerClose');
